@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ante Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #0a0a0a;
+  --white: #ffffff;
+  --off: #f5f5f5;
+  --mid: #888;
+  --light: #e0e0e0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', 'Inter', sans-serif;
+  background: var(--white);
+  color: var(--black);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 2.5rem;
+  background: var(--white);
+  border-bottom: 1px solid var(--light);
+}
+
+.nav-logo {
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--black);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.8rem;
+  font-weight: 300;
+  text-decoration: none;
+  color: var(--black);
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.nav-links a:hover { opacity: 1; }
+
+.nav-cta {
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-decoration: none;
+  color: var(--black);
+  border: 1px solid var(--black);
+  padding: 0.45rem 1.1rem;
+  transition: all 0.2s;
+}
+
+.nav-cta:hover { background: var(--black); color: var(--white); }
+
+/* ── HERO ── */
+.hero {
+  padding-top: 57px;
+}
+
+.hero-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: #ccc;
+}
+
+.hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-text {
+  padding: 3rem 2.5rem 4rem;
+  max-width: 1100px;
+}
+
+.hero-headline {
+  font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin-bottom: 2rem;
+}
+
+.hero-sub-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--light);
+  max-width: 900px;
+}
+
+.hero-sub {
+  font-size: 0.85rem;
+  color: var(--mid);
+  line-height: 1.75;
+}
+
+.hero-sub-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 0.5rem;
+}
+
+/* ── SECTION COMMON ── */
+.section-pad { padding: 5rem 2.5rem; }
+
+.section-heading {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 3rem;
+}
+
+/* ── PROJECTS CAROUSEL ── */
+#work { background: var(--white); }
+
+.projects-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 5rem 2.5rem 0;
+}
+
+.carousel-nav {
+  display: flex;
+  gap: 0.5rem;
+  padding-bottom: 0.25rem;
+}
+
+.carousel-btn {
+  width: 36px; height: 36px;
+  border: 1px solid var(--light);
+  background: var(--white);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  color: var(--black);
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.carousel-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+.carousel-btn:disabled { opacity: 0.25; cursor: default; }
+.carousel-btn:disabled:hover { background: var(--white); color: var(--black); border-color: var(--light); }
+
+.projects-track-outer {
+  overflow: hidden;
+  margin-top: 2.5rem;
+  padding: 0 2.5rem;
+}
+
+.projects-track {
+  display: flex;
+  gap: 1.5rem;
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+.project-item {
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 30%;
+  min-width: 30%;
+}
+
+.project-img {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: var(--off);
+}
+
+.project-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.project-item:hover .project-img img { transform: scale(1.04); }
+
+.project-info {
+  padding: 1rem 0 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex: 1;
+}
+
+.project-name {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--black);
+  margin-bottom: 0.25rem;
+}
+
+.project-meta {
+  font-size: 0.75rem;
+  color: var(--mid);
+}
+
+.project-arrow {
+  font-size: 1.1rem;
+  color: var(--mid);
+  text-decoration: none;
+}
+
+/* ── BLOG / JOURNAL (Radian-style) ── */
+#about {
+  background: var(--black);
+  color: var(--white);
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  min-height: 70vh;
+}
+
+.about-img {
+  overflow: hidden;
+  background: #222;
+}
+
+.about-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.85;
+}
+
+.about-content {
+  padding: 5rem 4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.about-heading {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 4rem;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+.about-col-title {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 1.25rem;
+}
+
+.about-col-list {
+  list-style: none;
+}
+
+.about-col-list li {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.55);
+  padding: 0.3rem 0;
+}
+
+/* ── BLOG / JOURNAL (Radian-style) ── */
+#blog { background: var(--white); }
+
+.blog-list {
+  border-top: 1px solid var(--light);
+}
+
+.blog-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--light);
+  text-decoration: none;
+  color: inherit;
+}
+
+.blog-img {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: var(--off);
+  flex-shrink: 0;
+}
+
+.blog-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.blog-row:hover .blog-img img { transform: scale(1.05); }
+
+.blog-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-top: 0.2rem;
+}
+
+.blog-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+.blog-title {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--black);
+}
+
+.blog-row:hover .blog-title { text-decoration: underline; }
+
+.blog-excerpt {
+  font-size: 0.8rem;
+  color: var(--mid);
+  line-height: 1.7;
+  margin-top: 0.2rem;
+}
+
+.blog-date {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-top: 0.5rem;
+}
+
+/* ── CONTACT ── */
+#contact { background: var(--white); }
+
+.contact-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8rem;
+  align-items: start;
+}
+
+.contact-headline {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 2.5rem;
+}
+
+.contact-body {
+  font-size: 0.85rem;
+  color: var(--mid);
+  line-height: 1.85;
+  margin-bottom: 2.5rem;
+}
+
+.contact-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.contact-row {
+  display: flex;
+  gap: 2rem;
+  font-size: 0.82rem;
+  align-items: baseline;
+}
+
+.contact-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  min-width: 75px;
+}
+
+.contact-val a {
+  color: var(--black);
+  text-decoration: none;
+  border-bottom: 1px solid var(--light);
+  transition: border-color 0.2s;
+}
+
+.contact-val a:hover { border-color: var(--black); }
+
+/* FORM */
+.contact-form { display: flex; flex-direction: column; }
+
+.form-group {
+  border-top: 1px solid var(--light);
+  padding: 1.1rem 0;
+}
+
+.form-group:last-of-type { border-bottom: 1px solid var(--light); }
+
+.form-label {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 0.4rem;
+}
+
+.form-input {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--black);
+  outline: none;
+  width: 100%;
+  resize: none;
+}
+
+.form-input::placeholder { color: var(--light); }
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  padding: 0.75rem 2rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary:hover { background: #333; }
+
+.btn-outline {
+  background: transparent;
+  color: var(--black);
+  border: 1px solid var(--black);
+  padding: 0.72rem 1.5rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-outline:hover { background: var(--black); color: var(--white); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--black);
+  color: rgba(255,255,255,0.45);
+  padding: 2rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+}
+
+.footer-logo {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+}
+
+.footer-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.footer-links a {
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  font-size: 0.72rem;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--white); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.25rem; }
+  .nav-links { display: none; }
+  .hero-text { padding: 2rem 1.25rem 3rem; }
+  .hero-sub-row { grid-template-columns: 1fr; gap: 1.5rem; }
+  .section-pad { padding: 3.5rem 1.25rem; }
+  .projects-header { padding: 3.5rem 1.25rem 0; }
+  .project-item { flex: 0 0 80vw; min-width: 80vw; }
+  .explore-row { grid-template-columns: 1fr; gap: 1rem; }
+  .explore-img { order: -1; }
+  #about { grid-template-columns: 1fr; }
+  .about-img { min-height: 300px; }
+  .about-content { padding: 3rem 1.5rem; }
+  .about-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .blog-row { grid-template-columns: 120px 1fr; gap: 1.25rem; }
+  .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+  footer { flex-direction: column; gap: 1.25rem; text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-img img, .blog-img img, .explore-img img { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Ante Visual</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#blog">Journal</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-img">
+    <!-- Ganti dengan foto hero Ante Visual -->
+    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&q=85" alt="Architectural exterior">
+  </div>
+  <div class="hero-text">
+    <h1 class="hero-headline">Ante Visual documents spaces for architects, designers, and the people who build them.</h1>
+    <div class="hero-sub-row">
+      <div>
+        <p class="hero-sub-label">What we do</p>
+        <p class="hero-sub">Architectural and interior photography and videography — Indonesia.</p>
+      </div>
+      <div>
+        <p class="hero-sub-label">Who we work with</p>
+        <p class="hero-sub">Architects, interior designers, contractors, and property developers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS CAROUSEL -->
+<section id="work">
+  <div class="projects-header">
+    <h2 class="section-heading" style="margin-bottom:0;">Projects</h2>
+    <div class="carousel-nav">
+      <button class="carousel-btn" id="prev-btn" aria-label="Previous" disabled>←</button>
+      <button class="carousel-btn" id="next-btn" aria-label="Next">→</button>
+    </div>
+  </div>
+  <div class="projects-track-outer" id="carousel-outer">
+    <div class="projects-track" id="projects-track">
+
+      <!-- ─ CARA NAMBAH PROJECT: copy satu blok .project-item di bawah dan ganti isinya ─ -->
+
+      <div class="project-item">
+        <div class="project-img">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80" alt="Living room, South Jakarta">
+        </div>
+        <div class="project-info">
+          <div>
+            <p class="project-name">Residence in South Jakarta</p>
+            <p class="project-meta">Interior — 2024</p>
+          </div>
+          <span class="project-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-img">
+          <img src="https://images.unsplash.com/photo-1615529328331-f8917597711f?w=800&q=80" alt="Minimalist kitchen, BSD">
+        </div>
+        <div class="project-info">
+          <div>
+            <p class="project-name">Private Home, BSD</p>
+            <p class="project-meta">Interior — 2024</p>
+          </div>
+          <span class="project-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-img">
+          <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80" alt="Modern exterior, Serpong">
+        </div>
+        <div class="project-info">
+          <div>
+            <p class="project-name">Commercial Building, Serpong</p>
+            <p class="project-meta">Exterior — 2023</p>
+          </div>
+          <span class="project-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-img">
+          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80" alt="Contemporary living space">
+        </div>
+        <div class="project-info">
+          <div>
+            <p class="project-name">Villa in Bintaro</p>
+            <p class="project-meta">Interior — 2023</p>
+          </div>
+          <span class="project-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-img">
+          <img src="https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?w=800&q=80" alt="Architectural exterior at dusk">
+        </div>
+        <div class="project-info">
+          <div>
+            <p class="project-name">Boutique Office, SCBD</p>
+            <p class="project-meta">Exterior — 2022</p>
+          </div>
+          <span class="project-arrow">→</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BLOG / JOURNAL — dipindah sebelum About -->
+<section id="blog" class="section-pad">
+  <h2 class="section-heading">Journal</h2>
+  <div class="blog-list">
+
+    <!-- ─ CARA NAMBAH ARTIKEL: copy satu blok .blog-row di bawah dan ganti isinya ─ -->
+
+    <a href="#" class="blog-row">
+      <div class="blog-img">
+        <img src="https://images.unsplash.com/photo-1618219740975-d40978bb7378?w=400&q=80" alt="Afternoon light">
+      </div>
+      <div class="blog-body">
+        <span class="blog-tag">Light & Composition</span>
+        <p class="blog-title">Why we always shoot the golden hour — and when we don't</p>
+        <p class="blog-excerpt">Natural light at dusk flatters most interiors, but the best image of a space isn't always the prettiest one. Sometimes you need noon.</p>
+        <span class="blog-date">June 2025</span>
+      </div>
+    </a>
+
+    <a href="#" class="blog-row">
+      <div class="blog-img">
+        <img src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=400&q=80" alt="Architect reviewing drawings">
+      </div>
+      <div class="blog-body">
+        <span class="blog-tag">Process</span>
+        <p class="blog-title">How to prepare your space for an architectural shoot</p>
+        <p class="blog-excerpt">A practical guide for architects and contractors — what to clear, what to keep, and why the small details matter more than you'd expect.</p>
+        <span class="blog-date">April 2025</span>
+      </div>
+    </a>
+
+    <a href="#" class="blog-row">
+      <div class="blog-img">
+        <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400&q=80" alt="Tropical modern home">
+      </div>
+      <div class="blog-body">
+        <span class="blog-tag">Indonesia</span>
+        <p class="blog-title">Shooting tropical architecture: what changes and what doesn't</p>
+        <p class="blog-excerpt">Tropical humidity, heavy shade, and open-plan living present real photographic challenges. Here's how we approach them.</p>
+        <span class="blog-date">February 2025</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ABOUT — dark section -->
+<section id="about">
+  <div class="about-img">
+    <img src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=900&q=80" alt="Architectural corridor">
+  </div>
+  <div class="about-content">
+    <h2 class="about-heading">About</h2>
+    <div class="about-grid">
+      <div>
+        <p class="about-col-title">Services</p>
+        <ul class="about-col-list">
+          <li>Architectural Photography</li>
+          <li>Interior Photography</li>
+          <li>Videography</li>
+          <li>Aerial / Drone</li>
+        </ul>
+      </div>
+      <div>
+        <p class="about-col-title">Clients</p>
+        <ul class="about-col-list">
+          <li>Architecture Studios</li>
+          <li>Interior Designers</li>
+          <li>Contractors</li>
+          <li>Property Developers</li>
+        </ul>
+      </div>
+      <div>
+        <p class="about-col-title">Based in</p>
+        <ul class="about-col-list">
+          <li>Jakarta</li>
+          <li>Available nationwide</li>
+        </ul>
+      </div>
+      <div>
+        <p class="about-col-title">Experience</p>
+        <ul class="about-col-list">
+          <li>3+ Years</li>
+          <li>60+ Projects</li>
+          <li>Photography & Video</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section-pad">
+  <div class="contact-inner">
+    <div>
+      <h2 class="contact-headline">Let's document your next project.</h2>
+      <p class="contact-body">We work with architects, interior designers, contractors, and developers. If you have a space worth capturing, we'd like to hear about it.</p>
+      <div class="contact-detail">
+        <div class="contact-row">
+          <span class="contact-label">Email</span>
+          <span class="contact-val"><a href="mailto:hello@antevisual.com">hello@antevisual.com</a></span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">Instagram</span>
+          <span class="contact-val"><a href="https://instagram.com/antevisual" target="_blank">@antevisual</a></span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">Location</span>
+          <span class="contact-val">Jakarta, Indonesia</span>
+        </div>
+      </div>
+      <a href="https://wa.me/6281234567890" class="btn-outline" target="_blank">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat on WhatsApp
+      </a>
+    </div>
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label class="form-label" for="name">Name</label>
+        <input class="form-input" type="text" id="name" placeholder="Your name" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-input" type="email" id="email" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="project">Project type</label>
+        <input class="form-input" type="text" id="project" placeholder="Residential, commercial, hospitality...">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="message">Tell us about the space</label>
+        <textarea class="form-input" id="message" rows="4" placeholder="Location, scale, timeline..."></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Send inquiry</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">Ante Visual</a>
+  <ul class="footer-links">
+    <li><a href="https://instagram.com/antevisual" target="_blank">Instagram</a></li>
+    <li><a href="mailto:hello@antevisual.com">Email</a></li>
+    <li><a href="#work">Work</a></li>
+  </ul>
+  <span>© 2025 Ante Visual</span>
+</footer>
+
+<script>
+// ── CAROUSEL ──
+(function() {
+  const track = document.getElementById('projects-track');
+  const outer = document.getElementById('carousel-outer');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+
+  let current = 0;
+  const GAP = 24; // 1.5rem at 16px
+
+  function getVisible() {
+    return window.innerWidth <= 900 ? 1 : 3;
+  }
+
+  function getItems() {
+    return track.querySelectorAll('.project-item');
+  }
+
+  function getItemWidth() {
+    const item = getItems()[0];
+    return item ? item.offsetWidth : 0;
+  }
+
+  function update() {
+    const items = getItems();
+    const visible = getVisible();
+    const max = Math.max(0, items.length - visible);
+    current = Math.max(0, Math.min(current, max));
+
+    const itemW = getItemWidth();
+    track.style.transform = `translateX(-${current * (itemW + GAP)}px)`;
+
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current >= max;
+  }
+
+  prevBtn.addEventListener('click', () => { current--; update(); });
+  nextBtn.addEventListener('click', () => { current++; update(); });
+
+  let startX = 0;
+  outer.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  outer.addEventListener('touchend', e => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { diff > 0 ? current++ : current--; update(); }
+  });
+
+  window.addEventListener('resize', () => { current = 0; update(); });
+  update();
+})();
+
+// ── CONTACT FORM ──
+function handleSubmit(e) {
+  e.preventDefault();
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const project = document.getElementById('project').value;
+  const message = document.getElementById('message').value;
+  const subject = encodeURIComponent('Project Inquiry — Ante Visual');
+  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nProject: ${project}\n\n${message}`);
+  window.open(`mailto:hello@antevisual.com?subject=${subject}&body=${body}`);
+  const btn = e.target.querySelector('.btn-primary');
+  btn.textContent = 'Sent ✓';
+  setTimeout(() => { btn.textContent = 'Send inquiry'; }, 3000);
+}
+</script>
+
+</body>
+</html>
